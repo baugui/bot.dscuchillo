@@ -1,0 +1,32 @@
+import discord
+from discord.ext import commands
+import os
+import random 
+
+
+intents = discord.Intents.default()
+intents.message_content = True
+ 
+bot = commands.Bot(command_prefix='$', intents=intents)
+ 
+@bot.event
+async def on_ready():
+    print(f'Logged in as {bot.user.name}')
+ 
+@bot.command()
+async def hello(ctx):
+    await ctx.send(f'Hi! I am a bot {bot.user}!')
+ 
+@bot.command()
+async def mem(ctx):
+    # Seleccionamos aleatoriamente un nombre de archivo de la carpeta 'Imagenes'
+    img_name = random.choice(os.listdir('cuchillo'))
+    # Abrimos el archivo de imagen
+    with open(f'cuchillo{img_name}', 'rb') as f:
+        picture = discord.File(f)
+    # Enviamos el archivo de imagen al canal donde se invocó el comando
+    await ctx.send(file=picture)
+
+
+ 
+bot.run('MTIxNzUyMTgyNzE4NzAwMzQyMw.GhTQKq.zStkcnV8P3whYULf82Nuzd6VLu7clHySPOhpZw')
